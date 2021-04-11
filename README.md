@@ -1,6 +1,6 @@
 # clamscan-docker
 
-Dockerization 🐳 of [ClamAV](https://www.clamav.net/) and specifically `clamscan` command used to scan periodicaly a specific folder for detecting trojans, viruses, malware & other malicious threats. If something bad is detected, an email is sent.
+Dockerization of [ClamAV](https://www.clamav.net/) and specifically `clamscan` command used to scan periodicaly a specific folder for detecting trojans, viruses, malware & other malicious threats. If something bad is detected, an email is sent.
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vQEDK9TB6PJMLF1HA_Js9b36rVfaByUg8Z-9MWk0atfRWWl4DBop_wq8_phRzM82_y6R39iMoreE0vD/pub?w=200)
 

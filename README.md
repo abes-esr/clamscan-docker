@@ -51,3 +51,15 @@ docker-compose up
 ```
 
 Then, open your browser at http://127.0.0.1:8025/ to look at the alert mail sent at the fake email `security@team.fr`
+
+## Generating a new version
+
+To generate a new version, just run this:
+```
+curl https://raw.githubusercontent.com/fmahnke/shell-semver/master/increment_version.sh > increment_version.sh
+chmod +x ./increment_version.sh
+CURRENT_VERSION=$(git describe --abbrev=0)
+NEXT_VERSION=$(./increment_version.sh -patch $CURRENT_VERSION) # -patch, -minor or -major
+#TODO ...
+```
+

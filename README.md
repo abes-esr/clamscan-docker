@@ -35,7 +35,9 @@ docker run -d
   abesesr/clamscan-docker:1.0.2
 ```
 
-## Debugging
+## Developement
+
+### Debugging and testing
 
 Firstly, download a virus and put it into `./volumes/folder-to-scan/`:
 ```
@@ -52,9 +54,9 @@ docker-compose up
 
 Then, open your browser at http://127.0.0.1:8025/ to look at the alert mail sent at the fake email `security@team.fr`
 
-## Generating a new version
+### Generating a new version
 
-To generate a new version, just run this:
+To generate a new version, just run theses commandes (and change the "-patch" option in the NEXT_VERSION line if necessary):
 ```
 curl https://raw.githubusercontent.com/fmahnke/shell-semver/master/increment_version.sh > increment_version.sh
 chmod +x ./increment_version.sh

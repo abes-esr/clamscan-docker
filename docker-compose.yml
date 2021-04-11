@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+
+  clamav:
+    build: ./image/
+    image: abesesr/clamav-docker:1.0.0
+    container_name: clamav
+    environment:
+      FOLDER_TO_SCAN: "/folder-to-scan/"
+      CRON_CLAMSCAN: "*/5 * * * *"
+      ALERT_MAILTO: "security@team.fr"
+      SMTP_TLS: "off"
+      SMTP_HOST: "clamav-mailhog"
+      SMTP_PORT: "1025"
+    depends_on:
+      - clamav-mailhog
+    volumes:
+      - ./volumes/folder-to-scan/:/folder-to-scan/
+
+
+  clamav-mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: clamav-mailhog
+    environment:
+      MH_SMTP_BIND_ADDR: "0.0.0.0:1025" # cf https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md
+    ports:
+      - 8025:8025
+    logging:
+      driver: none

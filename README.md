@@ -50,4 +50,4 @@ cd ./clamscan-docker/
 docker-compose up
 ```
 
-Then, open your browser at http://127.0.0.1:8025/ to look at the alter mail sent at the fake email `security@team.fr`
+Then, open your browser at http://127.0.0.1:8025/ to look at the alert mail sent at the fake email `security@team.fr`

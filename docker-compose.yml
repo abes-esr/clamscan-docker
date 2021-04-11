@@ -5,7 +5,7 @@ services:
 
   clamav:
     build: ./image/
-    image: abesesr/clamav-docker:1.0.1
+    image: abesesr/clamscan-docker:1.0.2
     container_name: clamav
     environment:
       FOLDER_TO_SCAN: "/folder-to-scan/"

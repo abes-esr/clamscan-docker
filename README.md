@@ -32,7 +32,7 @@ docker run -d
   -e ALERT_MAILTO="mymail@mydomain.fr" \
   -e SMTP_HOST="smtp.mydomain.fr" \
   -e SMTP_PORT="25" \
-  abesesr/clamscan-docker:1.0.1
+  abesesr/clamscan-docker:1.0.2
 ```
 
 ## Debugging
@@ -60,7 +60,7 @@ curl https://raw.githubusercontent.com/fmahnke/shell-semver/master/increment_ver
 chmod +x ./increment_version.sh
 CURRENT_VERSION=$(git tag | tail -1)
 NEXT_VERSION=$(./increment_version.sh -patch $CURRENT_VERSION) # -patch, -minor or -major
-sed -i "s#clamav-docker:$CURRENT_VERSION#clamav-docker:$NEXT_VERSION#g" README.md docker-compose.yml
+sed -i "s#clamscan-docker:$CURRENT_VERSION#clamscan-docker:$NEXT_VERSION#g" README.md docker-compose.yml
 git commit README.md docker-compose.yml -m "Version $NEXT_VERSION" 
 git tag $NEXT_VERSION
 git push --tags

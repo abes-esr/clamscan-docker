@@ -41,7 +41,8 @@ docker run -d
 
 Firstly, download a virus and put it into `./volumes/folder-to-scan/`:
 ```
-cd ./clamscan-docker/volumes/folder-to-scan/
+cd ./clamscan-docker/
+mkdir -p volumes/folder-to-scan/ && cd volumes/folder-to-scan/ 
 curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip > ./Win32.LuckyCat.zip
 unzip -P infected ./Win32.LuckyCat.zip 
 ```

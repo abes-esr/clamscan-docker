@@ -2,7 +2,7 @@
 
 mkdir -p ${FOLDER_TO_SCAN}
 
-echo -n "-> [$(date '+%Y-%m-%d %H:%M:%S')] - Scanning $FOLDER_TO_SCAN"
+echo "-> [$(date '+%Y-%m-%d %H:%M:%S')] - Scanning $FOLDER_TO_SCAN"
 clamscan --recursive=yes --allmatch=yes ${FOLDER_TO_SCAN} | tee /tmp/clamscan.log
 
 grep "Infected files: 0" /tmp/clamscan.log >/dev/null

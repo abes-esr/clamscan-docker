@@ -32,7 +32,7 @@ docker run -d
   -e ALERT_MAILTO="mymail@mydomain.fr" \
   -e SMTP_HOST="smtp.mydomain.fr" \
   -e SMTP_PORT="25" \
-  abesesr/clamscan-docker:1.0.3
+  abesesr/clamscan-docker:1.0.4
 ```
 
 ## Developement

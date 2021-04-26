@@ -5,11 +5,11 @@ services:
 
   clamav:
     build: ./image/
-    image: abesesr/clamscan-docker:1.0.2
+    image: abesesr/clamscan-docker:1.0.3
     container_name: clamav
     environment:
       FOLDER_TO_SCAN: "/folder-to-scan/"
-      CRON_CLAMSCAN: "*/5 * * * *"
+      CRON_CLAMSCAN: "* * * * *"
       ALERT_MAILTO: "security@team.fr"
       SMTP_TLS: "off"
       SMTP_HOST: "clamav-mailhog"

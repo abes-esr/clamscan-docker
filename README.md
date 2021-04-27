@@ -75,3 +75,8 @@ git tag $NEXT_VERSION
 git push --tags
 ```
 
+## See also
+
+- https://dev.to/brisbanewebdeveloper/scan-infected-files-with-docker-and-clam-antivirus-clamav-1939
+- https://medium.com/@darkcl_dev/scanning-files-with-clamav-inside-a-dockerized-node-application-bd2e5fcc5ce8
+

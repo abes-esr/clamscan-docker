@@ -27,7 +27,7 @@ Here is a basic usecase.
 You have a folder (`/var/www/html/uploads/`) where anonymous users can upload attachment thanks to a web form. You want to be sure there is no malicious uploaded files. So you decide to deploy `clamscan-docker` to scan this folder each 15 minutes and to be alerted to `mymail@mydomain.fr` if a virus is uploaded. Here is the docker commande you will run:
 
 ```
-docker run -d
+docker run -d --name myclamavcontainer \
   -v /var/www/html/uploads/:/folder-to-scan/ \
   -e SCAN_AT_STARTUP="1"
   -e CRON_CLAMSCAN="*/15 * * * *" \

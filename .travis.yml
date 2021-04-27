@@ -21,3 +21,6 @@ script:
   - test $NB_CONTAINERS = 1
   # 2nd test: clamscan-docker well scan the given folder
   - test "$(docker logs clamscan-docker | grep 'SCAN SUMMARY')" = "----------- SCAN SUMMARY -----------"
+  # 3rd test: clamscan-docker well detect the virus (1 file)
+  - test "$(docker logs clamscan-docker | grep 'Infected files')" = "Infected files: 1"
+  

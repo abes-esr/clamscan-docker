@@ -16,4 +16,4 @@ script:
   - NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)
   - test $NB_CONTAINERS = 1
   # 2nd test: clamscan-docker well scan the given folder
-  - test "$(docker logs suspicious_goldwasser | grep 'SCAN SUMMARY')" = "----------- SCAN SUMMARY -----------"
+  - test "$(docker logs clamscan-docker | grep 'SCAN SUMMARY')" = "----------- SCAN SUMMARY -----------"

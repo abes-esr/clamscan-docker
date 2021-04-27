@@ -7,6 +7,9 @@ Dockerization of [ClamAV](https://www.clamav.net/) and specifically `clamscan` c
 
 ![](https://docs.google.com/drawings/d/e/2PACX-1vQEDK9TB6PJMLF1HA_Js9b36rVfaByUg8Z-9MWk0atfRWWl4DBop_wq8_phRzM82_y6R39iMoreE0vD/pub?w=200)
 
+[demo](https://user-images.githubusercontent.com/328244/116212678-5d9bb680-a745-11eb-909a-e2ad75d750a1.mp4)
+
+
 ## Parameters
 
 - `SCAN_AT_STARTUP`: if 1, then start with a scan when the container is created (default is `1`)

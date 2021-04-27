@@ -7,7 +7,7 @@ before_install:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
-  - docker build -t abesesr/clamscan-docker:fortravis .
+  - docker build -t abesesr/clamscan-docker:fortravis image/
   - docker run -d --rm --name clamscan-docker -v /tmp/data/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" abesesr/clamscan-docker:fortravis
   - docker ps
   - sleep 20 && docker logs clamscan-docker

@@ -10,7 +10,7 @@ services:
     environment:
       FRESHCLAM_AT_STARTUP: "1"
       FOLDER_TO_SCAN: "/folder-to-scan/"
-      CRON_CLAMSCAN: "* * * * *"
+      CRON_CLAMSCAN: "0 * * * *"
       ALERT_MAILTO: "security@team.fr"
       SMTP_TLS: "off"
       SMTP_HOST: "clamav-mailhog"

@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:20.04
 
 # clamav: for the virus scanner
 # cron: for running periodicaly scanning
@@ -7,7 +7,7 @@ FROM ubuntu
 RUN apt update && apt install -y cron clamav msmtp ca-certificates gettext-base
 
 # update virus database a first time
-RUN freshclam
+RUN freshclam -F
 
 # script for running clamav scanning
 COPY do-clamscan.sh /scripts/do-clamscan.sh

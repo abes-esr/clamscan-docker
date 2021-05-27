@@ -8,6 +8,7 @@ services:
     image: abesesr/clamscan-docker:1.1.0
     container_name: clamav
     environment:
+      FRESHCLAM_AT_STARTUP: "1"
       FOLDER_TO_SCAN: "/folder-to-scan/"
       CRON_CLAMSCAN: "* * * * *"
       ALERT_MAILTO: "security@team.fr"

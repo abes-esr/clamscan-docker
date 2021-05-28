@@ -73,7 +73,7 @@ NEXT_VERSION=$(./increment_version.sh -patch $CURRENT_VERSION) # -patch, -minor 
 sed -i "s#clamscan-docker:$CURRENT_VERSION#clamscan-docker:$NEXT_VERSION#g" README.md docker-compose.yml
 git commit README.md docker-compose.yml -m "Version $NEXT_VERSION" 
 git tag $NEXT_VERSION
-git push --tags
+git push && git push --tags
 ```
 
 ## See also

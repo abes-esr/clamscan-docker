@@ -9,8 +9,10 @@ services:
     container_name: clamav
     environment:
       FRESHCLAM_AT_STARTUP: "1"
+      SCAN_AT_STARTUP: "1"
       FOLDER_TO_SCAN: "/folder-to-scan/"
       CRON_CLAMSCAN: "0 * * * *"
+      CLAMSCAN_OPTIONS: "--recursive=yes --allmatch=yes --remove=no --suppress-ok-results"
       ALERT_MAILTO: "security@team.fr"
       SMTP_TLS: "off"
       SMTP_HOST: "clamav-mailhog"

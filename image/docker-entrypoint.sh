@@ -5,6 +5,7 @@ export SCAN_AT_STARTUP=${SCAN_AT_STARTUP:='1'}
 export FRESHCLAM_AT_STARTUP=${FRESHCLAM_AT_STARTUP:='1'}
 export FOLDER_TO_SCAN=${FOLDER_TO_SCAN:=/folder-to-scan/}
 export CRON_CLAMSCAN=${CRON_CLAMSCAN:='*/5 * * * *'}
+export CLAMSCAN_OPTIONS=${CLAMSCAN_OPTIONS:='--recursive=yes --allmatch=yes --remove=no --suppress-ok-results'}
 export CRON_FRESHCLAM=${CRON_FRESHCLAM:='0 * * * *'}
 export ALERT_MAILTO=${ALERT_MAILTO:=""}
 export ALERT_SUBJECT=${ALERT_SUBJECT:='Alert from clamscan !'}

@@ -5,7 +5,7 @@ services:
 
   clamav:
     build: ./image/
-    image: abesesr/clamscan-docker:1.3.0
+    image: abesesr/clamscan-docker:1.3.1
     container_name: clamav
     environment:
       FRESHCLAM_AT_STARTUP: "1"

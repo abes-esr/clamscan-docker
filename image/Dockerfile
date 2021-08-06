@@ -7,6 +7,7 @@ FROM ubuntu:20.04
 RUN apt update && apt install -y cron clamav msmtp ca-certificates gettext-base
 
 # update virus database a first time
+VOLUME /var/lib/clamav/
 RUN freshclam -F
 
 # script for running clamav scanning

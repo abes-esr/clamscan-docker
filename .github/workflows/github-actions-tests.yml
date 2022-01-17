@@ -18,6 +18,7 @@ jobs:
         run: |
           docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="0" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
           docker ps
+          docker exec clamscan-docker ls -ail /var/lib/clamav/
           sleep 20 && docker logs clamscan-docker
       - name: "1st test: 1 running container?"
         run: |

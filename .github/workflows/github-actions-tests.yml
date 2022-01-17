@@ -1,4 +1,4 @@
-name: "GitHub Actions: tests for clamscan-docker"
+name: "clamscan-docker tests"
 on: [push]
 jobs:
   Build-And-Test:

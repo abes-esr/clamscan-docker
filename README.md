@@ -54,7 +54,7 @@ curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win
 unzip -P infected ./Win32.LuckyCat.zip 
 ```
 
-Then run the docker-compose.yml to scan this folder:
+Then run the `docker-compose.yml` to scan the `volumes/folder-to-scan/` folder:
 ```
 cd ./clamscan-docker/
 docker-compose up

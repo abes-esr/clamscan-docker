@@ -14,9 +14,16 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          echo ${{ github.repository }}
-          pwd
-          docker --version
-          docker-compose --version
-          exit 1 # pour simuler une erreur
+      - name: Build docker image
+        run: |
+          docker build -t abesesr/clamscan-docker:fortest image/
+      - name: Download a virus (just for test !)
+        run: |
+          curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip > /tmp/Win32.LuckyCat.zip
+          cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
+      - name: Run clamscan on this folder (contains the virus)
+        run: |
+          docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="0" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
+          docker ps
+          sleep 20 && docker logs clamscan-docker
       - run: echo "🍏 This job's status is ${{ job.status }}."

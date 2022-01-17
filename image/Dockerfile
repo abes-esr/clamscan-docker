@@ -4,6 +4,7 @@ FROM ubuntu:20.04
 # cron: for running periodicaly scanning
 # msmtp and ca-certificates: for sending alert emails
 # gettext-base: for having envsubst command
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y cron clamav msmtp ca-certificates gettext-base
 
 # update virus database a first time

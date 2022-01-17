@@ -1,0 +1,30 @@
+name: "clamscan-docker tests"
+on: [push]
+jobs:
+  Build-And-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: |
+          docker build -t abesesr/clamscan-docker:fortest image/
+      - name: Download a virus (just for test !)
+        run: |
+          curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > /tmp/Win32.LuckyCat.zip
+          cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
+      - name: Run clamscan on this folder (contains the virus)
+        run: |
+          docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
+          docker ps
+          sleep 60 && docker logs clamscan-docker
+      - name: "1st test: 1 running container?"
+        run: |
+          NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)
+          test $NB_CONTAINERS = 1
+      - name: "2nd test: clamscan-docker well scan the given folder"
+        run: |
+          test "$(docker logs clamscan-docker | grep 'SCAN SUMMARY')" = '----------- SCAN SUMMARY -----------'
+      - name: "3rd test: clamscan-docker well detect the virus (1 file)"
+        run: |
+          test "$(docker logs clamscan-docker | grep 'Infected files' | grep '1')" != ''

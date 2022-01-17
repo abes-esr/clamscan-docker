@@ -18,4 +18,5 @@ jobs:
           pwd
           docker --version
           docker-compose --version
+          exit 1 # pour simuler une erreur
       - run: echo "🍏 This job's status is ${{ job.status }}."

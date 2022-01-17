@@ -19,7 +19,7 @@ jobs:
           docker build -t abesesr/clamscan-docker:fortest image/
       - name: Download a virus (just for test !)
         run: |
-          curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip > /tmp/Win32.LuckyCat.zip
+          curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > /tmp/Win32.LuckyCat.zip
           ls -ail /tmp/
           cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
       - name: Run clamscan on this folder (contains the virus)

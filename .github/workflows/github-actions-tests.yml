@@ -1,7 +1,7 @@
 name: "GitHub Actions: tests for clamscan-docker"
 on: [push]
 jobs:
-  GitHub-Actions-ClamScan-Docker-Test:
+  Build-And-Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code

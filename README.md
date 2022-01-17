@@ -1,7 +1,7 @@
 # clamscan-docker
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/clamscan-docker.svg)](https://hub.docker.com/r/abesesr/clamscan-docker/)
-[![Build Status](https://travis-ci.com/abes-esr/clamscan-docker.svg?branch=main)](https://travis-ci.com/abes-esr/clamscan-docker)
+[![clamscan-docker tests](https://github.com/abes-esr/clamscan-docker/actions/workflows/github-actions-tests.yml/badge.svg?branch=main)](https://github.com/abes-esr/clamscan-docker/actions/workflows/github-actions-tests.yml)
 
 Dockerization of [ClamAV](https://www.clamav.net/) and specifically `clamscan` command used to scan periodicaly a specific folder for detecting trojans, viruses, malware & other malicious threats. If something bad is detected, an email is sent.
 

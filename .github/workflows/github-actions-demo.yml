@@ -17,13 +17,13 @@ jobs:
           docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="0" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
           docker ps
           sleep 20 && docker logs clamscan-docker
-      - name: 1st test: 1 running container?
+      - name: "1st test: 1 running container?"
         run: |
           NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)
           test $NB_CONTAINERS = 1
-      - name: 2nd test: clamscan-docker well scan the given folder
+      - name: "2nd test: clamscan-docker well scan the given folder"
         run: |
           test "$(docker logs clamscan-docker | grep 'SCAN SUMMARY')" = '----------- SCAN SUMMARY -----------'
-      - name: 3rd test: clamscan-docker well detect the virus (1 file)
+      - name: "3rd test: clamscan-docker well detect the virus (1 file)"
         run: |
           test "$(docker logs clamscan-docker | grep 'Infected files' | grep '1')" != ''

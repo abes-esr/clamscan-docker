@@ -50,7 +50,7 @@ Firstly, download a virus and put it into `./volumes/folder-to-scan/`:
 ```
 cd ./clamscan-docker/
 mkdir -p volumes/folder-to-scan/ && cd volumes/folder-to-scan/ 
-curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip > ./Win32.LuckyCat.zip
+curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > ./Win32.LuckyCat.zip
 unzip -P infected ./Win32.LuckyCat.zip 
 ```
 

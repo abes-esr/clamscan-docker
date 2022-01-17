@@ -20,6 +20,7 @@ jobs:
       - name: Download a virus (just for test !)
         run: |
           curl https://raw.githubusercontent.com/ytisf/theZoo/master/malwares/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip > /tmp/Win32.LuckyCat.zip
+          ls -ail /tmp/
           cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
       - name: Run clamscan on this folder (contains the virus)
         run: |

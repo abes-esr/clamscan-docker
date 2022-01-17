@@ -17,4 +17,5 @@ jobs:
           echo ${{ github.repository }}
           pwd
           docker --version
+          docker-compose --version
       - run: echo "🍏 This job's status is ${{ job.status }}."

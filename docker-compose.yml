@@ -1,3 +1,6 @@
+# This docker-compose.yml can be used as a usage example
+# it is also used for clamscan-docker developements
+
 version: '3'
 
 services:

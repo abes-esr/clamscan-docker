@@ -14,6 +14,7 @@ Dockerization of [ClamAV](https://www.clamav.net/) and specifically `clamscan` c
 
 - `SCAN_AT_STARTUP`: if 1, then start with a scan when the container is created (default is `1`)
 - `FRESHCLAM_AT_STARTUP`: if 1, then update the virus database when the container startup (default is `1`)
+- `SCAN_ONLY_NEW_FILES`: if 1, then the scan will scan a first time the whole `FOLDER_TO_SCAN` content, and the next time (see `CRON_CLAMSCAN`) it will only scan the new files found. Thanks to this feature, the process will be lighter (less CPU usage) especially when there is lot and lot of files in `FOLDER_TO_SCAN` (default is `1`)
 - `FOLDER_TO_SCAN`: this is the folder to scan with clamscan (default is `/folder-to-scan/`)
 - `CRON_CLAMSCAN`: crontab parameters to run the clamscan command which is used to scan the `FOLDER_TO_SCAN` (default is `*/5 * * * *` - it means each 5 minutes)
 - `CRON_FRESHCLAM`: crontab parameters to run the freshclam command which is used to update virus databases (default is `0 * * * * *` - it means each hours)

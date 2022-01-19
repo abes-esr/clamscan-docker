@@ -1,7 +1,7 @@
 name: "clamscan-docker tests"
 on: [push]
 jobs:
-  Build-And-Test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code

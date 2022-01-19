@@ -2,8 +2,29 @@
 
 mkdir -p ${FOLDER_TO_SCAN}
 
-echo "-> [$(date '+%Y-%m-%d %H:%M:%S')] - Scanning $FOLDER_TO_SCAN"
-clamscan $CLAMSCAN_OPTIONS ${FOLDER_TO_SCAN} | tee /tmp/clamscan.log
+
+# copy not scanned files to tmp directory then scan it !
+LAST_SCANNED_FILE=/tmp/clamscan-last-scanned-file
+if [ ! -f ${LAST_SCANNED_FILE} ]; then
+  touch --date "2000-01-01" ${LAST_SCANNED_FILE}
+fi
+rm -rf /tmp/new-files-to-scan/
+mkdir -p /tmp/new-files-to-scan/
+if [ "${SCAN_ONLY_NEW_FILES}" == "1" ]; then
+  find ${FOLDER_TO_SCAN} \
+    -type f -newer ${LAST_SCANNED_FILE} \
+    -exec cp -a {} /tmp/new-files-to-scan/ \;
+else
+  rsync -a ${FOLDER_TO_SCAN} /tmp/new-files-to-scan/
+fi
+
+if [ "$(ls /tmp/new-files-to-scan/)" == "" ]; then
+  echo "-> Nothing new to scan in ${FOLDER_TO_SCAN}, skipping"
+  exit 0
+fi
+
+echo "-> Scanning $(ls /tmp/new-files-to-scan/ | wc -l) files from ${FOLDER_TO_SCAN} mounted docker volume"
+clamscan $CLAMSCAN_OPTIONS /tmp/new-files-to-scan/ | tee /tmp/clamscan.log
 
 grep "Infected files: 0" /tmp/clamscan.log >/dev/null
 SOMETHING_IS_INFECTED=$?
@@ -20,3 +41,7 @@ $(cat /tmp/clamscan.log)" \
     echo "-> Infected: but do not send any alert email because SMTP_HOST is empty"    
   fi
 fi
+
+# get the last modified file and copy it as a date flag for the next scan
+cp -af ${FOLDER_TO_SCAN}/$(ls -t1 ${FOLDER_TO_SCAN} | head -1) ${LAST_SCANNED_FILE}
+

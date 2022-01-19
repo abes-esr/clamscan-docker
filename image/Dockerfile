@@ -4,8 +4,9 @@ FROM ubuntu:20.04
 # cron: for running periodicaly scanning
 # msmtp and ca-certificates: for sending alert emails
 # gettext-base: for having envsubst command
+# rsync: for SCAN_ONLY_NEW_FILES feature
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y cron clamav msmtp ca-certificates gettext-base
+RUN apt update && apt install -y cron clamav msmtp ca-certificates gettext-base rsync
 
 # update virus database a first time
 VOLUME /var/lib/clamav/

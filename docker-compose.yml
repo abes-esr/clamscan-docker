@@ -13,6 +13,7 @@ services:
     environment:
       FRESHCLAM_AT_STARTUP: "1"
       SCAN_AT_STARTUP: "1"
+      SCAN_ONLY_NEW_FILES: "1"
       FOLDER_TO_SCAN: "/folder-to-scan/"
       CRON_CLAMSCAN: "0 * * * *"
       CLAMSCAN_OPTIONS: "--recursive=yes --allmatch=yes --remove=no --suppress-ok-results"

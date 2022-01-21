@@ -11,10 +11,12 @@ fi
 rm -rf /tmp/new-files-to-scan/
 mkdir -p /tmp/new-files-to-scan/
 if [ "${SCAN_ONLY_NEW_FILES}" == "1" ]; then
-  find ${FOLDER_TO_SCAN} -newer ${LAST_SCANNED_FILE} -type f -print0 \
-    | rsync -a --files-from=- ./ /tmp/new-files-to-scan/
+  rsync -a \
+    --files-from=<(find ${FOLDER_TO_SCAN} -newer ${LAST_SCANNED_FILE} -type f -exec basename {} \;) \
+    ${FOLDER_TO_SCAN} \
+    /tmp/new-files-to-scan
 else
-  rsync -a ${FOLDER_TO_SCAN} /tmp/new-files-to-scan/
+  rsync -a ${FOLDER_TO_SCAN} /tmp/new-files-to-scan
 fi
 
 if [ "$(ls /tmp/new-files-to-scan/)" == "" ]; then
@@ -22,7 +24,7 @@ if [ "$(ls /tmp/new-files-to-scan/)" == "" ]; then
   exit 0
 fi
 
-echo "-> Scanning $(ls /tmp/new-files-to-scan/ | wc -l) files from ${FOLDER_TO_SCAN} mounted docker volume"
+echo "-> Scanning $(find /tmp/new-files-to-scan/ -type f | wc -l) (new) files from ${FOLDER_TO_SCAN} mounted docker volume"
 clamscan $CLAMSCAN_OPTIONS /tmp/new-files-to-scan/ | tee /tmp/clamscan.log
 
 grep "Infected files: 0" /tmp/clamscan.log >/dev/null
@@ -43,6 +45,6 @@ fi
 
 # get the last modified file and copy it as a date flag for the next scan
 cp -af \
-  "${FOLDER_TO_SCAN}/$(find . -type f -exec stat --format '%Y %n' "{}" \; | sort -nr | cut -d' ' -f2- | head -1)" \
+  "$(find ${FOLDER_TO_SCAN} -type f -exec stat --format '%Y %n' "{}" \; | sort -nr | cut -d' ' -f2- | head -1)" \
   ${LAST_SCANNED_FILE}
 

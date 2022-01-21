@@ -40,7 +40,7 @@ docker run -d --name myclamavcontainer \
   -e ALERT_MAILTO="mymail@mydomain.fr" \
   -e SMTP_HOST="smtp.mydomain.fr" \
   -e SMTP_PORT="25" \
-  abesesr/clamscan-docker:1.4.0
+  abesesr/clamscan-docker:1.4.1
 ```
 
 ## Developement

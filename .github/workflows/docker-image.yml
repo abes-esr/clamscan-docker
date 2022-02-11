@@ -16,11 +16,14 @@ jobs:
 
     steps:
     
+    - uses: actions/checkout@v2
+    
+
 
     - name: Setup tmate session (debug)
       uses: mxschmitt/action-tmate@v3
-
-    - uses: actions/checkout@v2
+    
+    
     - name: Build the Docker image
       run: docker build ./image/ --tag abesesr/clamscan-docker:latest
 

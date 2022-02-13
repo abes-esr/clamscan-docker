@@ -4,6 +4,21 @@ on: [push]
 
 jobs:
 
+  debug-meta-docker-tag:
+    runs-on: ubuntu-latest
+    steps:    
+
+      - name: Get docker metadata from git tags/branchs
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: abesesr/clamscan-docker
+      - name: Debug
+        run: |
+          env
+          echo ${{ steps.meta.outputs.tags }}
+
+
   build-image:
     runs-on: ubuntu-latest
     steps:    

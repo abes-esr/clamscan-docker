@@ -13,13 +13,13 @@ jobs:
 
 
       - name: "Debug: get docker metadata from git tags/branchs"
-        id: meta
+        id: metadebug
         uses: docker/metadata-action@v3
         with:
           images: abesesr/clamscan-docker
       - name: "Debug: push docker image (test)"
         run: |
-          echo "${{ steps.meta.outputs.tags }}"
+          echo "${{ steps.metadebug.outputs.tags }}"
 
 
       - name: "Build: build docker image"

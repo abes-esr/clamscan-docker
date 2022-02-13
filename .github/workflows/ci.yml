@@ -1,4 +1,4 @@
-name: "clamscan-docker docker image"
+name: "clamscan-docker ci"
 
 on: [push]
 

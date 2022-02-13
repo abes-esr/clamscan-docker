@@ -60,9 +60,15 @@ jobs:
           cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
       - name: Run clamscan on this folder (contains the virus)
         run: |
-          docker container run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
+          docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
           docker ps
           sleep 60 && docker logs clamscan-docker
+
+      - name: Debug
+        run: |
+          docker images
+          docker ps -a
+
       - name: "1st test: 1 running container?"
         run: |
           NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)

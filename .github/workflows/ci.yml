@@ -9,6 +9,19 @@ jobs:
 
       - name: "Build: checkout source code"
         uses: actions/checkout@v2          
+
+
+
+      - name: "Debug: get docker metadata from git tags/branchs"
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: abesesr/clamscan-docker
+      - name: "Debug: push docker image (test)"
+        run: |
+          echo "${{ steps.meta.outputs.tags }}"
+
+
       - name: "Build: build docker image"
         run: |
           docker build ./image/ -t abesesr/clamscan-docker:fortest

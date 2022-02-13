@@ -44,7 +44,7 @@ jobs:
       - name: "Push: login to DockerHub"
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin  
-      - name: "Push: push docker image (test)"
+      - name: "Push: push docker image"
         run: |
           docker build ./image/ -t localimage:latest
           DOCKER_TAGS="${{ steps.meta.outputs.tags }}"

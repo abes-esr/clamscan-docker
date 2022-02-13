@@ -63,14 +63,10 @@ jobs:
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin  
       - name: "Push: push docker image (test)"
         run: |
-          docker build ./image/ -t ${{ steps.meta.outputs.tags }}
-          docker push ${{ steps.meta.outputs.tags }}
-          echo ${{ steps.meta.outputs }}
-          
-      - name: "Push: push docker image"
-        uses: docker/build-push-action@v2
-        with:
-          context: ./image/
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}        
+          docker build ./image/ -t localimage:latest
+          DOCKER_TAGS="${{ steps.meta.outputs.tags }}"
+          for DOCKER_TAG in $DOCKER_TAGS
+          do
+            docker tag localimage:latest $DOCKER_TAG
+            docker push $DOCKER_TAG
+          done

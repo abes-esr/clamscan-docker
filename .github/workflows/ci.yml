@@ -20,6 +20,7 @@ jobs:
         with:
           context: ./image/
           push: false
+          tags: abesesr/clamscan-docker:fortest
           outputs: type=docker,dest=/tmp/image-app.tar
 
       - name: Upload docker image
@@ -47,7 +48,7 @@ jobs:
 
       - name: Load docker image
         run: |
-          docker image import /tmp/image-app.tar abesesr/clamscan-docker:fortest
+          docker load --input /tmp/image-app.tar
       - name: Debug
         run: |
           docker images

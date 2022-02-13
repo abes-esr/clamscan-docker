@@ -42,10 +42,8 @@ jobs:
         with:
           images: abesesr/clamscan-docker
       - name: "Push: login to DockerHub"
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin  
       - name: "Push: push docker image"
         uses: docker/build-push-action@v2
         with:

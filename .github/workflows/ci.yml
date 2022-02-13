@@ -3,66 +3,20 @@ name: "clamscan-docker ci"
 on: [push]
 
 jobs:
-
-  debug-meta-docker-tag:
+  build-test-push:
     runs-on: ubuntu-latest
-    steps:    
+    steps:
 
-      - name: Get docker metadata from git tags/branchs
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: abesesr/clamscan-docker
-      - name: Debug
-        run: |
-          env
-          echo ${{ steps.meta.outputs.tags }}
-
-
-  build-image:
-    runs-on: ubuntu-latest
-    steps:    
       - name: Checkout source code
-        uses: actions/checkout@v2
-        
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1      
-  
+        uses: actions/checkout@v2          
       - name: Build docker image
         uses: docker/build-push-action@v2
         with:
           context: ./image/
           push: false
           tags: abesesr/clamscan-docker:fortest
-          outputs: type=docker,dest=/tmp/image-app.tar
 
-      - name: Upload docker image
-        uses: actions/upload-artifact@v2
-        with:
-          name: image-app.tar
-          path: /tmp/image-app.tar
-          retention-days: 1
-          
-  test-image:
-    needs: [build-image]
-    runs-on: ubuntu-latest
-    steps:
-        
-      - name: Download docker image
-        uses: actions/download-artifact@v2
-        with:
-          name: image-app.tar
-          path: /tmp
 
-      - name: Load docker image
-        run: |
-          docker load --input /tmp/image-app.tar
-      - name: Debug
-        run: |
-          docker images
-          docker ps -a
 
       - name: Download a virus (just for test !)
         run: |
@@ -73,12 +27,6 @@ jobs:
           docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
           docker ps
           sleep 60 && docker logs clamscan-docker
-
-      - name: Debug
-        run: |
-          docker images
-          docker ps -a
-
       - name: "1st test: 1 running container?"
         run: |
           NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)
@@ -91,22 +39,6 @@ jobs:
           test "$(docker logs clamscan-docker | grep 'Infected files' | grep '1')" != ''
 
 
-  push-image:
-    needs: [test-image]
-    runs-on: ubuntu-latest
-    steps:    
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Download docker image
-        uses: actions/download-artifact@v2
-        with:
-          name: image-app.tar
-          path: /tmp
-
-      - name: Load docker image
-        run: |
-          docker load --input /tmp/image-app.tar
 
       - name: Get docker metadata from git tags/branchs
         id: meta

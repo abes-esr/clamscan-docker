@@ -10,9 +10,10 @@ jobs:
 
     steps:
     
-    - uses: actions/checkout@v2
+    - name: Checkout source code
+      uses: actions/checkout@v2
 
-    - name: Docker meta
+    - name: Get docker metadata from git tags/branchs
       id: meta
       uses: docker/metadata-action@v3
       with:
@@ -24,7 +25,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push
+    - name: Build and push docker image
       uses: docker/build-push-action@v2
       with:
         context: ./image/

@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Build: checkout source code
+      - name: "Build: checkout source code"
         uses: actions/checkout@v2          
-      - name: Build: build docker image
+      - name: "Build: build docker image"
         uses: docker/build-push-action@v2
         with:
           context: ./image/
@@ -18,39 +18,39 @@ jobs:
 
 
 
-      - name: Tests: download a virus (just for test !)
+      - name: "Tests: download a virus (just for test !)"
         run: |
           curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > /tmp/Win32.LuckyCat.zip
           cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
-      - name: Tests: run clamscan on this folder (contains the virus)
+      - name: "Tests: run clamscan on this folder (contains the virus)"
         run: |
           docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
           docker ps
           sleep 60 && docker logs clamscan-docker
-      - name: Tests: 1st test -> 1 running container?
+      - name: "Tests: 1st test -> 1 running container?"
         run: |
           NB_CONTAINERS=$(docker ps | grep " Up " | wc -l)
           test $NB_CONTAINERS = 1
-      - name: Tests: 2nd test -> clamscan-docker well scan the given folder
+      - name: "Tests: 2nd test -> clamscan-docker well scan the given folder"
         run: |
           test "$(docker logs clamscan-docker | grep 'SCAN SUMMARY')" = '----------- SCAN SUMMARY -----------'
-      - name: Tests: 3rd test -> clamscan-docker well detect the virus (1 file)
+      - name: "Tests: 3rd test -> clamscan-docker well detect the virus (1 file)"
         run: |
           test "$(docker logs clamscan-docker | grep 'Infected files' | grep '1')" != ''
 
 
 
-      - name: Push: get docker metadata from git tags/branchs
+      - name: "Push: get docker metadata from git tags/branchs"
         id: meta
         uses: docker/metadata-action@v3
         with:
           images: abesesr/clamscan-docker
-      - name: Push: login to DockerHub
+      - name: "Push: login to DockerHub"
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push: push docker image
+      - name: "Push: push docker image"
         uses: docker/build-push-action@v2
         with:
           context: ./image/

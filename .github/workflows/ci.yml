@@ -19,7 +19,7 @@ jobs:
           images: abesesr/clamscan-docker
       - name: "Debug: push docker image (test)"
         run: |
-          echo "${{ steps.metadebug.outputs.tags }}"
+          echo "bonjour ${{ steps.metadebug.outputs.tags }} okok"
 
 
       - name: "Build: build docker image"

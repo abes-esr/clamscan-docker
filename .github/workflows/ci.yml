@@ -10,12 +10,8 @@ jobs:
       - name: "Build: checkout source code"
         uses: actions/checkout@v2          
       - name: "Build: build docker image"
-        uses: docker/build-push-action@v2
-        with:
-          context: ./image/
-          push: false
-          tags: abesesr/clamscan-docker:fortest
-
+        run: |
+          docker build ./image/ -t abesesr/clamscan-docker:fortest
 
 
       - name: "Tests: download a virus (just for test !)"

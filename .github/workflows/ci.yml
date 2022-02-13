@@ -9,26 +9,9 @@ jobs:
 
       - name: "Build: checkout source code"
         uses: actions/checkout@v2          
-
-
-
-      - name: "Debug: get docker metadata from git tags/branchs"
-        id: metadebug
-        uses: docker/metadata-action@v3
-        with:
-          images: abesesr/clamscan-docker
-      - name: "Debug: push docker image (test)"
-        run: |
-          DOCKER_TAGS="${{ steps.metadebug.outputs.tags }}"
-          for DOCKER_TAG in $DOCKER_TAGS
-          do
-            echo "bonjour $DOCKER_TAG"
-          done
-
-
       - name: "Build: build docker image"
         run: |
-          docker build ./image/ -t abesesr/clamscan-docker:fortest
+          docker build ./image/ -t localimage:latest
 
 
       - name: "Tests: download a virus (just for test !)"
@@ -37,7 +20,7 @@ jobs:
           cd /tmp/ && unzip -P infected ./Win32.LuckyCat.zip
       - name: "Tests: run clamscan on this folder (contains the virus)"
         run: |
-          docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" abesesr/clamscan-docker:fortest
+          docker run -d --rm --name clamscan-docker -v /tmp/:/folder-to-scan/ -e SCAN_AT_STARTUP="1" -e FRESHCLAM_AT_STARTUP="1" -e CRON_CLAMSCAN="0 0 * * *" -e SMTP_HOST="" -e SMTP_PORT="" localimage:latest
           docker ps
           sleep 60 && docker logs clamscan-docker
       - name: "Tests: 1st test -> 1 running container?"
@@ -53,7 +36,7 @@ jobs:
 
 
 
-      - name: "Push: get docker metadata from git tags/branchs"
+      - name: "Push: prepare version from git tags/branchs"
         id: meta
         uses: docker/metadata-action@v3
         with:

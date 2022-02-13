@@ -14,20 +14,35 @@ jobs:
         with:
           context: ./image/
           push: false
-          tags: abesesr/clamscan-docker:fortest
+          outputs: type=docker,dest=/tmp/image-app.tar
+
+      - name: Upload docker image
+        uses: actions/upload-artifact@v2
+        with:
+          name: image-app.tar
+          path: /tmp/image-app.tar
+          retention-days: 1
+          
+  test-image:
+    needs: [build-image]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download docker image
+        uses: actions/download-artifact@v2
+        with:
+          name: image-app.tar
+          path: /tmp
+
+      - name: Load docker image
+        run: |
+          docker load --input /tmp/image-app.tar
+
       - name: Debug
         run: |
           docker images
           docker ps -a
 
-  test-image:
-    needs: [build-image]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug
-        run: |
-          docker images
-          docker ps -a
       - name: Download a virus (just for test !)
         run: |
           curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > /tmp/Win32.LuckyCat.zip

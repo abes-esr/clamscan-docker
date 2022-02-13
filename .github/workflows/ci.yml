@@ -42,8 +42,7 @@ jobs:
 
       - name: Load docker image
         run: |
-          docker load --input /tmp/image-app.tar
-
+          docker import /tmp/image-app.tar abesesr/clamscan-docker:fortest
       - name: Debug
         run: |
           docker images

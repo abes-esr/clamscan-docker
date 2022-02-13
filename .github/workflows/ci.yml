@@ -4,14 +4,22 @@ on: [push]
 
 jobs:
 
-  tests:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:    
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    - name: Build docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./image/
+        push: false
+        tags: abesesr/clamscan-docker:fortest
+
+  test-image:
+    needs: [build-image]
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - name: Build docker image
-        run: |
-          docker build -t abesesr/clamscan-docker:fortest image/
       - name: Download a virus (just for test !)
         run: |
           curl -L "https://github.com/ytisf/theZoo/blob/dd88d539de6c91e39483848fa0bd2fe859009c3e/malware/Binaries/Win32.LuckyCat/Win32.LuckyCat.zip?raw=true" > /tmp/Win32.LuckyCat.zip
@@ -32,26 +40,23 @@ jobs:
         run: |
           test "$(docker logs clamscan-docker | grep 'Infected files' | grep '1')" != ''
 
-  build:
-    needs: [tests]
+
+  push-image:
+    needs: [test-image]
     runs-on: ubuntu-latest
-    steps:
-    
+    steps:    
     - name: Checkout source code
       uses: actions/checkout@v2
-
     - name: Get docker metadata from git tags/branchs
       id: meta
       uses: docker/metadata-action@v3
       with:
         images: abesesr/clamscan-docker
-
     - name: Login to DockerHub
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
     - name: Build and push docker image
       uses: docker/build-push-action@v2
       with:

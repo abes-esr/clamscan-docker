@@ -21,7 +21,7 @@ jobs:
         run: |
           for DOCKER_TAG in "${{ steps.metadebug.outputs.tags }}"
           do
-            echo $DOCKER_TAG
+            echo "bonjour $DOCKER_TAG"
           done
 
 

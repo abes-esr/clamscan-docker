@@ -24,3 +24,6 @@ COPY msmtprc.tls.tmpl /etc/msmtprc.tls.tmpl
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["cron", "-f"]
+
+

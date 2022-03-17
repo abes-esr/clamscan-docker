@@ -41,4 +41,5 @@ fi
 
 # start the scheduler (force env needed by cron scripts juste before)
 env > /etc/environment
-exec cron -f
+# execute CMD (crond)
+exec "$@"

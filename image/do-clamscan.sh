@@ -12,7 +12,7 @@ rm -rf /tmp/new-files-to-scan/
 mkdir -p /tmp/new-files-to-scan/
 if [ "${SCAN_ONLY_NEW_FILES}" == "1" ]; then
   rsync -a \
-    --files-from=<(find ${FOLDER_TO_SCAN} -newer ${LAST_SCANNED_FILE} -type f -exec basename {} \;) \
+    --files-from=<(find ${FOLDER_TO_SCAN} -newer ${LAST_SCANNED_FILE} -type f -exec ls {} \; | sed "s#${FOLDER_TO_SCAN}##g") \
     ${FOLDER_TO_SCAN} \
     /tmp/new-files-to-scan
 else

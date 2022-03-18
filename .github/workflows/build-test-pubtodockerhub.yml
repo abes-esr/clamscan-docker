@@ -1,11 +1,11 @@
-name: "ci"
+name: "build-test-pubtodockerhub"
 
 on:
   push:
   pull_request:
 
 jobs:
-  build-test-push:
+  build-test-pubtodockerhub:
     runs-on: ubuntu-latest
     steps:
 

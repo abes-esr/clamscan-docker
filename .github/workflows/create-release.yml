@@ -1,0 +1,40 @@
+       
+name: 'Create Release'
+
+on: 
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version (semver)'
+        required: true
+        default: 'x.x.x'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
+        with:
+          fetch-depth: '0' # to get all the tags locally
+
+      - name: 'Verify version is not already used as a git tag'
+        env:
+          NEW_TAG:  ${{ github.event.inputs.releaseVersion }}
+        run: |
+          [[ "$(git tag --list | grep $NEW_TAG)" == "" ]] && exit 0 || exit 1
+        
+      - name: 'Generates the new version (patch few files + git tag)'
+        env:
+          NEW_TAG: ${{ github.event.inputs.releaseVersion }}
+        run: |
+          git config --global user.email "github-action@noreply"
+          git config --global user.name "Github Action"
+          npm config set tag-version-prefix ''
+          npm config set git-tag-version false
+          npm version $NEW_TAG
+          sed -i "s#Version: [0-9]\.[0-9]\.[0-9]#Version: $NEW_TAG#g" README.md
+          git commit -m "Version $NEW_TAG" README.md package.json
+          git tag $NEW_TAG
+          git push && git push --tags

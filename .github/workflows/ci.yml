@@ -3,6 +3,10 @@ name: "ci"
 on:
   push:
   pull_request:
+  # WIP: le worflow create-release.yml ne fonctionne pas comme prévu pour le moment
+  #      il lui manque la capacité de passer d'une manière ou d'une autre le numéro de version
+  #      au workflow ci.yml, sans cela l'image docker générée ne possède pas le bon tag et va
+  #      builder sur la branch en cours ("main").
   workflow_run:
     workflows: ["Create release"]
     branches: [main]

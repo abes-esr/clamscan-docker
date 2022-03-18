@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: '0' # to get all the tags locally
 
-      - name: 'Verify version is semver formatted'
+      - name: 'Verify version is semver formatted (X.X.X)'
         env:
           NEW_TAG:  ${{ github.event.inputs.releaseVersion }}
         run: |

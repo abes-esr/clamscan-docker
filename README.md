@@ -1,7 +1,7 @@
 # clamscan-docker
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/clamscan-docker.svg)](https://hub.docker.com/r/abesesr/clamscan-docker/)
-[![clamscan-docker ci](https://github.com/abes-esr/clamscan-docker/actions/workflows/ci.yml/badge.svg)](https://github.com/abes-esr/clamscan-docker/actions/workflows/ci.yml)
+[![clamscan-docker ci](https://github.com/abes-esr/clamscan-docker/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/clamscan-docker/actions/workflows/build-test-pubtodockerhub.yml)
 
 Dockerization of [ClamAV](https://www.clamav.net/) and specifically `clamscan` command used to scan periodicaly a specific folder for detecting trojans, viruses, malware & other malicious threats. If something bad is detected, an email is sent.
 
@@ -70,7 +70,7 @@ To generate a new version you have to:
 1. Identify the version you want to create (the version should respect [semver (X.X.X)](https://semver.org/lang/fr/) and should not already exist)
 2. Go the github action in charge of creating a new release: https://github.com/abes-esr/clamscan-docker/actions/workflows/create-release.yml
 3. Clic on "Run workflow" on the right, indicate the version, and validate: ![image](https://user-images.githubusercontent.com/328244/158980351-04d98b20-fbf8-417b-a8d6-b573de4a0941.png)
-4. Validate and wait for the build, [![ci](https://github.com/abes-esr/clamscan-docker/actions/workflows/ci.yml/badge.svg)](https://github.com/abes-esr/clamscan-docker/actions/workflows/ci.yml)
+4. Validate and wait for the build, [![ci](https://github.com/abes-esr/clamscan-docker/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/clamscan-docker/actions/workflows/build-test-pubtodockerhub.yml)
 
 
 ## See also

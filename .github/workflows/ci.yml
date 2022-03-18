@@ -1,6 +1,13 @@
 name: "ci"
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_run:
+    workflows: ["Create release"]
+    branches: [main]
+    types:
+      - completed
 
 jobs:
   build-test-push:

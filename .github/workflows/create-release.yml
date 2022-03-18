@@ -19,6 +19,12 @@ jobs:
         with:
           fetch-depth: '0' # to get all the tags locally
 
+      - name: 'Verify version is semver formatted'
+        env:
+          NEW_TAG:  ${{ github.event.inputs.releaseVersion }}
+        run: |
+          echo $NEW_TAG | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$'
+
       - name: 'Verify version is not already used as a git tag'
         env:
           NEW_TAG:  ${{ github.event.inputs.releaseVersion }}

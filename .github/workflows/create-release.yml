@@ -47,6 +47,11 @@ jobs:
           git commit README.md docker-compose.yml -m "Version $NEW_TAG" 
           git tag $NEW_TAG
           git push && git push --tags
+          # merge la nouvelle version sur develop
+          # (pour pas que la branche main soit en "avance" sur develop)
+          git switch develop
+          git merge main
+          git push
 
 
 

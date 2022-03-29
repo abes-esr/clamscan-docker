@@ -1,11 +1,10 @@
-       
-name: 'Create release'
+name: 'Create Release'
 
 on: 
   workflow_dispatch:
     inputs:
       releaseVersion:
-        description: 'Release version (semver)'
+        description: 'Version de la release (semver)'
         required: true
         default: 'x.x.x'
 
@@ -14,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: 'Checkout source code'
         uses: 'actions/checkout@v3'
         with:
@@ -23,7 +21,11 @@ jobs:
           token: ${{ secrets.TOKEN_GITHUB_FOR_GITHUB_ACTION }}
 
 
-
+      - name: 'Verify release is created only on "main" or "master" git branch'
+        run: |
+          CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo $CURRENT_GIT_BRANCH
+          [[ "$CURRENT_GIT_BRANCH" == "main" || "$CURRENT_GIT_BRANCH" == "master" ]] && exit 0 || exit 1
       - name: 'Verify version is semver formatted (X.X.X)'
         env:
           NEW_TAG:  ${{ github.event.inputs.releaseVersion }}
@@ -37,23 +39,26 @@ jobs:
         
         
         
-      - name: 'Generates the new version (patch few files + git tag)'
+      - name: 'Generate the new version (patch few files + git tag)'
         env:
           NEW_TAG: ${{ github.event.inputs.releaseVersion }}
         run: |
           git config --global user.email "github-action@noreply"
           git config --global user.name "Github Action"
-          sed -i "s#clamscan-docker:[0-9]\.[0-9]\.[0-9]#clamscan-docker:$NEW_TAG#g" README.md docker-compose.yml
-          git commit README.md docker-compose.yml -m "Version $NEW_TAG" 
+          npm config set tag-version-prefix ''
+          npm config set git-tag-version false
+          npm version $NEW_TAG
+          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+#Version: $NEW_TAG#g" README.md
+          git commit -m "Version $NEW_TAG" README.md package.json
           git tag $NEW_TAG
           git push && git push --tags
-          # merge la nouvelle version sur develop
-          # (pour pas que la branche main soit en "avance" sur develop)
+          # merge la préparation de la nouvelle version sur develop
+          # (version X.X.X-SNAPSHOT)
+          # CURRENT_GIT_BRANCH vaut main ou master, c'est la où est créé la release
+          CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           git switch develop
-          git merge main
+          git merge $CURRENT_GIT_BRANCH
           git push
-
-
 
       - name: 'Create the github release'
         uses: softprops/action-gh-release@v1

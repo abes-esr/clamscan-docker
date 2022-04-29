@@ -1,5 +1,8 @@
 name: "build-test-pubtodockerhub"
 
+env:
+  DOCKERHUB_IMAGE_PREFIX: abesesr/clamscan-docker
+
 on:
   push:
     paths-ignore:
@@ -46,7 +49,7 @@ jobs:
         id: docker_tag_meta
         uses: docker/metadata-action@v3
         with:
-          images: abesesr/clamscan-docker
+          images: ${{ env.DOCKERHUB_IMAGE_PREFIX }}
       - name: "Push: login to DockerHub"
         if: github.event_name != 'pull_request'
         run: |

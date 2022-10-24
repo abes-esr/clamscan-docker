@@ -45,20 +45,12 @@ jobs:
         run: |
           git config --global user.email "github-action@noreply"
           git config --global user.name "Github Action"
-          npm config set tag-version-prefix ''
-          npm config set git-tag-version false
-          npm version $NEW_TAG
-          sed -i "s#Version: [0-9]+\.[0-9]+\.[0-9]+#Version: $NEW_TAG#g" README.md
-          git commit -m "Version $NEW_TAG" README.md package.json
+          sed -i "s#abesesr/clamscan-docker:[0-9]\+\.[0-9]\+\.[0-9]\+#abesesr/clamscan-docker:$NEW_TAG#g" README.md docker-compose.yml
+          git commit -m "Version $NEW_TAG" README.md docker-compose.yml
           git tag $NEW_TAG
           git push && git push --tags
-          # merge la préparation de la nouvelle version sur develop
-          # (version X.X.X-SNAPSHOT)
-          # CURRENT_GIT_BRANCH vaut main ou master, c'est la où est créé la release
-          CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          git switch develop
-          git merge $CURRENT_GIT_BRANCH
-          git push
+
+
 
       - name: 'Create the github release'
         uses: softprops/action-gh-release@v1
